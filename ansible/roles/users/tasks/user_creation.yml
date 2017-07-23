@@ -1,0 +1,8 @@
+---
+
+- name: Creating new user "{{ username }}"
+  user:
+    name: "{{ username }}"
+    shell: /bin/bash
+    ssh_key_file: ~/.ssh/id_rsa.pub
+  become: yes

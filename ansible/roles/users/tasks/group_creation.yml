@@ -1,0 +1,6 @@
+---
+
+- name: Creating new group "{{ groupname }}"
+  group:
+    name: "{{ groupname }}"
+  become: yes
