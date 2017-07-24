@@ -1,0 +1,8 @@
+---
+
+- name: Appending user "{{ username }}" to group "{{ groupname }}"
+  user:
+    name: "{{ username }}"
+    group: "{{ groupname }}"
+    append: yes
+  become: yes

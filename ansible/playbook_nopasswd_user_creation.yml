@@ -12,3 +12,5 @@
     - include: roles/users/tasks/user_creation.yml
     - include: roles/users/tasks/ssh_copy_id.yml
     - include: roles/users/tasks/group_creation.yml groupname=nopasswd
+    - include: roles/users/tasks/append_user_to_group.yml groupname=nopasswd
+    - include: roles/users/tasks/sudo_without_password.yml groupname=nopasswd
