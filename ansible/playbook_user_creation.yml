@@ -1,4 +1,4 @@
-- hosts: musashi
+- hosts: all
   vars_prompt:
     - name: username
       prompt: Input new username
