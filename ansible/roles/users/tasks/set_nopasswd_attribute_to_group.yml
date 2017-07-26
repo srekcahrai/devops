@@ -1,5 +1,7 @@
 ---
 
+- include: roles/users/tasks/group_creation.yml
+
 - name: Making group "{{ groupname }}" sudo without password
   lineinfile:
     path: /etc/sudoers
