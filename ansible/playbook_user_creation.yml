@@ -1,18 +1,17 @@
 - hosts: all
+  vars:
+    sudo: no
   vars_prompt:
     - name: username
       prompt: Input new username
       private: no
+      when: username is undefined
 
     - name: identity_file
       prompt: Input path of public identity file
       private: no
       default: "~/.ssh/id_rsa.pub"
-
-    - name: is_sudo
-      prompt: Is the user sudo user?
-      private: no
-      default: no
+      when: identity_file is undefined
 
   tasks:
     - include: roles/users/tasks/user_creation.yml
