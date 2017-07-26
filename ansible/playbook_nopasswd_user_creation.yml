@@ -8,6 +8,7 @@
       prompt: Input path of public identity file
       private: no
       default: "~/.ssh/id_rsa.pub"
+
   tasks:
     - include: roles/users/tasks/user_creation.yml
     - include: roles/users/tasks/ssh_copy_id.yml

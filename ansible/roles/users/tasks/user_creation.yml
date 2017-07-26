@@ -1,8 +1,32 @@
 ---
+- name: Creating default group "{{ username }}" for user "{{ username }}"
+  group:
+    name: "{{ username }}"
+  become: yes
 
 - name: Creating new user "{{ username }}"
   user:
     name: "{{ username }}"
+    group: "{{ username }}"
     shell: /bin/bash
     ssh_key_file: ~/.ssh/id_rsa.pub
+    append: yes
   become: yes
+
+- name: Adding user "{{ username }}" to "sudo" group
+  user:
+    name: "{{ username }}"
+    groups: sudo
+    append: yes
+  become: yes
+  when: is_sudo and
+        (ansible_os_family == "Debian")
+
+- name: Adding user "{{ username }}" to "wheel" group
+  user:
+    name: "{{ username }}"
+    group: wheel
+    append: yes
+  become: yes
+  when: is_sudo and
+        (ansible_os_family == "CentOS")

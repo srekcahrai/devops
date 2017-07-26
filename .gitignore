@@ -1,0 +1,4 @@
+*.retry
+*.swp
+ansible/ansible.cfg
+ansible/hosts
