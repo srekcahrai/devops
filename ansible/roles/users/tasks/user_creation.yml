@@ -30,4 +30,4 @@
     append: yes
   become: yes
   when: (sudo) and
-        (ansible_os_family == "CentOS")
+        (ansible_os_family == "RedHat")

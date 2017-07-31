@@ -21,4 +21,6 @@
     - include: roles/users/tasks/ssh_copy_id.yml
     - include: roles/users/tasks/set_nopasswd_attribute_to_group.yml groupname=nopasswd
       when: (nopasswd)
+    - include: roles/users/tasks/append_user_to_group.yml groupname=nopasswd
+      when: (nopasswd)
 
