@@ -1,3 +1,4 @@
+*.cfg
 *.retry
 *.swp
 ansible/ansible.cfg

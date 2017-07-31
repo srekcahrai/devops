@@ -1,0 +1,37 @@
+---
+
+- name: Installing apache2
+  apt:
+    name: apache2
+    update_cache: yes
+  become: yes
+  when: (ansible_os_family == "Debian") and (apache)
+
+- name: Installing MySQL Server
+  apt:
+    name: mysql-server
+  become: yes
+  when: (ansible_os_family == "Debian") and (mysql)
+
+#- name: Installing PosgreSQL Server
+#  apt:
+#    name: posgresql
+
+- name: Installing PHP and it's modules
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - php
+    - php-mcrypt
+    - libapache2-mod-php
+  become: yes
+  when: (ansible_os_family == "Debian") and (apache) and (php)
+
+- name: Installing PHP MySQL
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - php-mysql
+  become: yes
+  when: (ansible_os_family == "Debian") and (php) and (mysql)
+

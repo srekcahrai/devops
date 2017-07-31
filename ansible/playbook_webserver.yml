@@ -1,0 +1,11 @@
+- hosts: all
+  vars:
+    apache: yes
+    nginx: no
+    mysql: no
+    php: no
+
+  tasks:
+    - include: roles/package-manager/tasks/apache.yml
+      when: (apache)
+    
