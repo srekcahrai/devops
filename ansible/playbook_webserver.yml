@@ -2,6 +2,7 @@
   vars:
     apache: yes
     nginx: no
+    mariadb: no
     mysql: no
     php: no
 

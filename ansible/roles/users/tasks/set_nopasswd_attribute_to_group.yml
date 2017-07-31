@@ -7,6 +7,7 @@
     path: /etc/sudoers
     state: present
     regexp: "^%{{ groupname }} ALL="
-    line: '%{{ groupname }} ALL=(ALL) NOPASSWD: ALL'
-    validate: 'visudo -cf %s'
+    line: "%{{ groupname }} ALL=(ALL) NOPASSWD: ALL"
+    validate: "visudo -cf %s"
   become: yes
+
