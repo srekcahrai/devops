@@ -20,7 +20,7 @@
     groups: sudo
     append: yes
   become: yes
-  when: (is_sudo) and
+  when: (sudo) and
         (ansible_os_family == "Debian")
 
 - name: Adding user "{{ username }}" to "wheel" group
@@ -29,5 +29,5 @@
     group: wheel
     append: yes
   become: yes
-  when: (is_sudo) and
+  when: (sudo) and
         (ansible_os_family == "CentOS")

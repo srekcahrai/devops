@@ -2,8 +2,8 @@
 
 - hosts: all
   vars:
-    is_sudo: no
-    is_nopasswd: no
+    sudo: no
+    nopasswd: no
   vars_prompt:
     - name: username
       prompt: Input new username
@@ -20,5 +20,5 @@
     - include: roles/users/tasks/user_creation.yml
     - include: roles/users/tasks/ssh_copy_id.yml
     - include: roles/users/tasks/set_nopasswd_attribute_to_group.yml groupname=nopasswd
-      when: (is_nopasswd)
+      when: (nopasswd)
 
