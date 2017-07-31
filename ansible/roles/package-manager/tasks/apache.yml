@@ -1,23 +1,80 @@
 ---
 
-- name: Installing apache2
+- name: Installing apache2 on Debian family
   apt:
     name: apache2
     update_cache: yes
   become: yes
-  when: (ansible_os_family == "Debian") and (apache)
+  when: (ansible_os_family == "Debian")
 
-- name: Installing MySQL Server
+- name: Installing httpd on RedHat family
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - httpd
+    - openssl
+    - mod_ssl
+  become: yes
+  when: (ansible_os_family == "RedHat")
+
+- name: Creating sites-available directory
+  file:
+    path: /etc/httpd/sites-available
+    state: directory
+  become: yes
+
+- name: Creating sites-enabled directory
+  file:
+    path: /etc/httpd/sites-enabled
+    state: directory
+  become: yes
+
+- name: Including configurations of sites-enabled
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    state: present
+    regexp: "^IncludeOptional conf.d/*.conf$"
+    line: "IncludeOptional conf.d/*.conf"
+    validate: "apache2ctl -t"
+  become: yes
+  become: yes 
+
+- name: Installing MySQL Server on Debian family
   apt:
     name: mysql-server
   become: yes
-  when: (ansible_os_family == "Debian") and (mysql)
+  when: (ansible_os_family == "Debian") and
+        (mysql is defined) and
+        (mysql)
 
-#- name: Installing PosgreSQL Server
-#  apt:
-#    name: posgresql
+- name: Installing MariaDB Server on RedHat family
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - mariadb-server
+    - mariadb
+  become: yes
+  when: (ansible_os_family == "RedHat") and
+        (mariadb is defined) and
+        (mariadb)
 
-- name: Installing PHP and it's modules
+- name: Installing PostgreSQL Server on Debian family
+  apt:
+    name: postgresql
+  become: yes
+  when: (ansible_os_family == "Debian") and
+        (postgresql is defined) and
+        (postgresql)
+
+- name: Installing PostgreSQL Server on Redhat family
+  yum:
+    name: postgresql
+  become: yes
+  when: (ansible_os_family == "Redhat") and
+        (postgresql is defined) and
+        (postgresql)
+
+- name: Installing PHP and it's modules on Debian family
   apt:
     name: "{{ item }}"
   with_items:
@@ -25,13 +82,73 @@
     - php-mcrypt
     - libapache2-mod-php
   become: yes
-  when: (ansible_os_family == "Debian") and (apache) and (php)
+  when: (ansible_os_family == "Debian") and
+        (apache is defined) and
+        (php is defined) and
+        (apache) and
+        (php)
 
-- name: Installing PHP MySQL
+- name: Installing PHP and it's modules on Redhat family
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - php-common
+    - php-gd
+    - php-pdo
+    - php-pear
+    - php-pecl-memcache
+    - php-xml
+  become: yes
+  when: (ansible_os_family == "RedHat") and
+        (apache is defined) and
+        (php is defined) and
+        (apache) and
+        (php)
+
+- name: Installing PHP MySQL on Debian family
   apt:
     name: "{{ item }}"
   with_items:
     - php-mysql
   become: yes
-  when: (ansible_os_family == "Debian") and (php) and (mysql)
+  when: (ansible_os_family == "Debian") and
+        (php is defined) and
+        (mysql is defined) and
+        (php) and
+        (mysql)
 
+- name: Installing PHP MySQL on Redhat family
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - php-mysql
+  become: yes
+  when: (ansible_os_family == "RedHat") and
+        (php is defined) and
+        (mysql is defined) and
+        (php) and
+        (mysql)
+
+- name: Installing PHP PostgreSQL on Debian family
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - php-postgresql
+  become: yes
+  when: (ansible_os_family == "Debian") and
+        (php is defined) and
+        (mysql is defined) and
+        (php) and
+        (mysql)
+
+- name: Installing PHP PostgreSQL on RedHat family
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - php-postgresql
+  become: yes
+  when: (ansible_os_family == "RedHat") and
+        (php is defined) and
+        (mysql is defined) and
+        (php) and
+        (mysql)
