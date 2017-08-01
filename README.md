@@ -28,7 +28,3 @@ Run **playbook_user_creation.yml** using ssh passing parameters and command para
 ```
 ansible-playbook -i "127.0.0.1," -e "ansible_port=22 ansible_user=root username=devops identity_file=~/devops.pub nopasswd=yes sudo=yes" ansible/playbook_user_creation.yml
 ```
-#### playbook_webserver.yml
-```
-ansible-playbook playbook_user_creation.yml
-```
