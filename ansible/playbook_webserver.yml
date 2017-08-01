@@ -1,6 +1,6 @@
 - hosts: all
   vars:
-    apache: yes
+    apache: no
     nginx: no
     mariadb: no
     mysql: no
@@ -9,4 +9,3 @@
   tasks:
     - include: roles/package-manager/tasks/apache.yml
       when: (apache)
-    
