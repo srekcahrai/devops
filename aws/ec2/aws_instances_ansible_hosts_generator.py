@@ -16,6 +16,7 @@ PATH = os.path.join(HOME_DIR, ANSIBLE_FOLDER_NAME)
 SCRIPT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 GROUP_TYPE_ACCOUNT_NAME = 'account_name'
+GROUP_TYPE_REGION = 'region'
 GROUP_TYPE_TAG = 'tag'
 GROUP_TYPE_INSTANCE_TYPE = 'instance_type'
 GROUP_TYPE_INSTANCE_STATE = 'state'
@@ -113,6 +114,9 @@ def group_instances(account_ec2_list, group_type):
                 temp_group_dict = {
                     account_name: [instance for instance in ec2_object.instances.all() if instance.state['Name'] == 'running']
                 }
+            elif group_type == GROUP_TYPE_REGION:
+                group_info['group_type'] = GROUP_TYPE_REGION
+                temp_group_dict = group_instances_by_region(ec2_object)
             elif group_type == GROUP_TYPE_TAG:
                 group_info['group_type'] = GROUP_TYPE_TAG
                 temp_group_dict = group_instances_by_tag(ec2_object)
@@ -175,15 +179,17 @@ def main():
     group_instance_tag_info = group_instances(account_ec2_info_list, GROUP_TYPE_TAG)
     group_instance_type_info = group_instances(account_ec2_info_list, GROUP_TYPE_INSTANCE_TYPE)
     group_account_name_info = group_instances(account_ec2_info_list, GROUP_TYPE_ACCOUNT_NAME)
+    group_region_info = group_instances(account_ec2_info_list, GROUP_TYPE_REGION)
 
-    to_ansible_hosts(group_instance_tag_info)
-    to_ansible_hosts(group_instance_type_info)
-    to_ansible_hosts(group_account_name_info)
+    # to_ansible_hosts(group_instance_tag_info)
+    # to_ansible_hosts(group_instance_type_info)
+    # to_ansible_hosts(group_account_name_info)
 
     print to_file(
         to_ansible_hosts(group_account_name_info),
         to_ansible_hosts(group_instance_tag_info),
         to_ansible_hosts(group_instance_type_info)
+        to_ansible_hosts(group_region_info)
     )
 
 
