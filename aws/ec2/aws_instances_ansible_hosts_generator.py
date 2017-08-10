@@ -2,11 +2,10 @@
 
 import json
 import os
-import socket
 
 import boto3
 
-CONFIG = 'config.cfg'
+CONFIG = 'aws_instances_ansible_hosts_generator.config.default'
 
 ANSIBLE_FOLDER_NAME = 'ansible'
 HOSTS_FILENAME = 'hosts'
@@ -49,8 +48,8 @@ def generate_account_ec2_info():
                     "region": region,
                     "ec2_object": boto3.resource(
                         'ec2',
-                        aws_access_key_id=config['access_key_id'],
-                        aws_secret_access_key=config['secret_access_key'],
+                        aws_access_key_id=config['aws_access_key'],
+                        aws_secret_access_key=config['aws_secret_key'],
                         region_name=region
                     )
                 }
