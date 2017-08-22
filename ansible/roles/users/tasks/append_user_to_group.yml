@@ -3,6 +3,6 @@
 - name: Appending user "{{ username }}" to group "{{ groupname }}"
   user:
     name: "{{ username }}"
-    group: "{{ groupname }}"
+    groups: "{{ groupname }}"
     append: yes
   become: yes
