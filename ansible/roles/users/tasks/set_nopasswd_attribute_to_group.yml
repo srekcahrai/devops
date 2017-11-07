@@ -1,6 +1,6 @@
 ---
 
-- include: roles/users/tasks/group_creation.yml
+- import_tasks: roles/users/tasks/group_creation.yml
 
 - name: Making group "{{ groupname }}" sudo without password
   lineinfile:
@@ -10,4 +10,4 @@
     line: "%{{ groupname }} ALL=(ALL) NOPASSWD: ALL"
     validate: "visudo -cf %s"
   become: yes
-
+  when: (nopasswd)

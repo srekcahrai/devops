@@ -1,6 +1,6 @@
 ---
 
-- name: Append identity file to authorized_keys
+- name: Appending identity file to authorized_keys
   authorized_key:
     user: "{{ username }}"
     key: "{{ lookup('file', identity_file) }}"

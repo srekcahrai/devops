@@ -7,5 +7,5 @@
     php: no
 
   tasks:
-    - include: roles/package-manager/tasks/apache.yml
+    - import_tasks: roles/package-manager/tasks/apache.yml
       when: (apache)

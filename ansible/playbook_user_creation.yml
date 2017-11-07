@@ -2,25 +2,24 @@
 
 - hosts: all
   vars:
-    sudo: no
-    nopasswd: no
+    sudo: false
+    nopasswd: false
   vars_prompt:
     - name: username
       prompt: Input new username
-      private: no
+      private: false
       when: username is undefined
 
     - name: identity_file
       prompt: Input path of public identity file
-      private: no
+      private: false
       default: "~/.ssh/id_rsa.pub"
       when: identity_file is undefined
 
   tasks:
-    - include: roles/users/tasks/user_creation.yml
-    - include: roles/users/tasks/ssh_copy_id.yml
-    - include: roles/users/tasks/set_nopasswd_attribute_to_group.yml groupname=nopasswd
-      when: (nopasswd)
-    - include: roles/users/tasks/append_user_to_group.yml groupname=nopasswd
-      when: (nopasswd)
-
+    - import_tasks: roles/users/tasks/user_creation.yml
+    - import_tasks: roles/users/tasks/ssh_copy_id.yml
+    - import_tasks: roles/users/tasks/set_nopasswd_attribute_to_group.yml groupname=nopasswd
+      when: nopasswd
+    - import_tasks: roles/users/tasks/append_user_to_group.yml groupname=nopasswd
+      when: nopasswd

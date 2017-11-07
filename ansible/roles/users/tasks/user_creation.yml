@@ -10,7 +10,7 @@
     name: "{{ username }}"
     group: "{{ username }}"
     shell: /bin/bash
-    ssh_key_file: ~/.ssh/id_rsa.pub
+#    ssh_key_file: "{{ identity_file }}"
     append: yes
   become: yes
 
