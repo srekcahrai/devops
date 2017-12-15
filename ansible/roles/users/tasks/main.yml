@@ -1,0 +1,59 @@
+---
+
+- name: Creating new user "{{ username }}"
+  user:
+    name: "{{ username }}"
+    shell: /bin/bash
+    append: yes
+  become: yes
+
+- name: Appending identity file to authorized_keys
+  authorized_key:
+    user: "{{ username }}"
+    key: "{{ lookup('file', identity_file) }}"
+  become: yes
+  when: (identity_file is defined)
+
+- name: Creating group "{{ nopasswd_group }}"
+  group:
+    name: "{{ nopasswd_group }}"
+  become: yes
+  when: (nopasswd)
+
+- name: Making group "{{ nopasswd_group }}" sudo without password
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: "^%{{ nopasswd_group }} ALL="
+    line: "%{{ nopasswd_group }} ALL=(ALL) NOPASSWD: ALL"
+    validate: "visudo -cf %s"
+  become: yes
+  when: (nopasswd)
+
+- name: Adding user "{{ username }}" to "{{ nopasswd_group }}" group
+  user:
+    name: "{{ username }}"
+    groups: "{{ nopasswd_group }}"
+    append: yes
+  become: yes
+  when: (nopasswd)
+
+- name: Adding user "{{ username }}" to "sudo" group
+  user:
+    name: "{{ username }}"
+    groups: sudo
+    append: yes
+  become: yes
+  when: (sudo) and
+        (ansible_os_family == "Debian")
+
+- name: Adding user "{{ username }}" to "wheel" group
+  user:
+    name: "{{ username }}"
+    group: wheel
+    append: yes
+  become: yes
+  when: (sudo) and
+        (ansible_os_family == "RedHat")
+
+...
